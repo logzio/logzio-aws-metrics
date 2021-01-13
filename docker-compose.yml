@@ -1,0 +1,51 @@
+version: '3.2'
+services:
+  otel-agent:
+     image: otel/opentelemetry-collector
+     container_name: opentelemetry-collector
+     ports:
+     - 55678-55680:55678-55680
+     - 6060:6060
+     - 7276:7276
+     - 8888:8888
+     - 9411:9411
+     - 9943:9943
+     volumes:
+     - config_files:/configuration
+     command:
+     - "--config=/configuration/otel.yml"
+     depends_on:
+     - logzio-config-builder
+  logzio-config-builder:
+     image: logzio-config-builder:latest
+     container_name: logzio-config-builder
+     volumes:
+     - config_files:/configuration
+     - ${CUSTOM_CONFIG_PATH:-./configuration_raw/blank.yml}:/configuration/custom/cloudwatch.yml
+     environment:
+     - LOGZIO_REGION=${LOGZIO_REGION}
+     - AWS_NAMESPACES=${AWS_NAMESPACES}
+     - LOGZIO_MODULES=${LOGZIO_MODULES}
+     - LOGZIO_TOKEN=${LOGZIO_TOKEN}
+     - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+     - SCRAPE_INTERVAL=${SCRAPE_INTERVAL}
+     - CUSTOM_CONFIG_PATH=${CUSTOM_CONFIG_PATH}
+     - P8S_LOGZIO_NAME=${P8S_LOGZIO_NAME}
+     ports:
+     - 5001:5001
+  cloudwatch-exporter:
+     image: prom/cloudwatch-exporter
+     container_name: cloudwatch-exporter
+     volumes:
+     - config_files:/configuration
+     ports:
+     - 9106:9106
+     environment:
+     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+     command:
+     - "/configuration/cloudwatch.yml"
+     depends_on:
+     - logzio-config-builder
+volumes:
+  config_files:

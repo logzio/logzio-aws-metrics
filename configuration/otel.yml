@@ -1,0 +1,26 @@
+receivers:
+  prometheus:
+    config:
+      global:
+        external_labels:
+          p8s_logzio_name:
+      scrape_configs: []
+
+exporters:
+  prometheusremotewrite:
+    endpoint: https://listener.logz.io:8053
+    headers:
+      Authorization:
+  logging:
+    loglevel: info
+
+processors:
+  batch:
+  queued_retry:
+
+service:
+  pipelines:
+    metrics:
+      receivers: [prometheus]
+      processors: [batch, queued_retry]
+      exporters: [logging,prometheusremotewrite]
