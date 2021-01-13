@@ -31,7 +31,6 @@ services:
      - SCRAPE_INTERVAL=${SCRAPE_INTERVAL}
      - CUSTOM_CONFIG_PATH=${CUSTOM_CONFIG_PATH}
      - P8S_LOGZIO_NAME=${P8S_LOGZIO_NAME}
-     - CUSTOM_LISTENER=${CUSTOM_LISTENER}
      ports:
      - 5001:5001
   cloudwatch-exporter:
