@@ -59,7 +59,7 @@ def is_valid_aws_namespaces(namespaces):
         for n in aws_namespaces_list:
             if n not in aws_namespaces:
                 raise ValueError(f'{n} namespace is not supported')
-    except KeyError as e:
-        raise KeyError(f'Could not find aws services: {e}')
+    except KeyError:
+        raise
     return aws_namespaces_list
 

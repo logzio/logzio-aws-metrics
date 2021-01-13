@@ -1,5 +1,5 @@
 from ruamel.yaml import YAML
-from util import input_validator, scrape_jobs_config, api
+from util import input_validator, scrape_jobs_config,api
 import os
 import logging
 
@@ -14,25 +14,18 @@ AWS_NAMESPACES = os.environ['AWS_NAMESPACES']
 LOGZIO_MODULES = os.environ['LOGZIO_MODULES']
 CUSTOM_CONFIG_PATH = os.environ['CUSTOM_CONFIG_PATH']
 P8S_LOGZIO_NAME = os.environ['P8S_LOGZIO_NAME']
-CUSTOM_LISTENER = os.environ['CUSTOM_LISTENER']
 
 # Logging config
 DEFAULT_LOG_LEVEL = "INFO"
 LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
-
 # Validate inputs
-def validate_input():
-    input_validator.is_valid_logzio_token(LOGZIO_TOKEN)
-    input_validator.is_valid_aws_region(AWS_REGION)
-    modules = input_validator.is_valid_logz_io_modules(LOGZIO_MODULES, SUPPORTED_MODULES)
-    input_validator.is_valid_logzio_region_code(REGION)
-    input_validator.is_valid_scrape_interval(SCRAPE_INTERVAL)
-    namespaces = input_validator.is_valid_aws_namespaces(AWS_NAMESPACES)
-    return modules, namespaces
-
-
-LOGZIO_MODULES, AWS_NAMESPACES = validate_input()
+input_validator.is_valid_logzio_token(LOGZIO_TOKEN)
+input_validator.is_valid_aws_region(AWS_REGION)
+LOGZIO_MODULES = input_validator.is_valid_logz_io_modules(LOGZIO_MODULES, SUPPORTED_MODULES)
+input_validator.is_valid_logzio_region_code(REGION)
+input_validator.is_valid_scrape_interval(SCRAPE_INTERVAL)
+AWS_NAMESPACES = input_validator.is_valid_aws_namespaces(AWS_NAMESPACES)
 
 
 def _create_logger():
@@ -48,17 +41,13 @@ def _create_logger():
 
 
 def _get_listener_url(region):
-    if CUSTOM_LISTENER:
-        return CUSTOM_LISTENER
-    else:
-        return LOGZIO_LISTENER_ADDRESS.replace("listener.", "listener{}.".format(_get_region_code(region)))
+    return LOGZIO_LISTENER_ADDRESS.replace("listener.", "listener{}.".format(_get_region_code(region)))
 
 
 def _get_region_code(region):
     if region != "us" and region != "":
         return "-{}".format(region)
     return ""
-
 
 # close yaml file
 def _dump_and_close_file(module_yaml, module_file):
@@ -69,7 +58,6 @@ def _dump_and_close_file(module_yaml, module_file):
     module_file.truncate()
     module_file.close()
 
-
 # Updating opentelemrty configuration with remotewrite endpoint, token and scrape jobs
 def _update_otel_config():
     logger.info('Adding opentelemtry collector configuration')
@@ -79,15 +67,13 @@ def _update_otel_config():
         module_yaml['exporters']['prometheusremotewrite']['endpoint'] = _get_listener_url(REGION)
         module_yaml['exporters']['prometheusremotewrite']['headers'][
             'Authorization'] = f'Bearer {LOGZIO_TOKEN}'
-        module_yaml['receivers']['prometheus']['config']['global']['external_labels'][
-            'p8s_logzio_name'] = P8S_LOGZIO_NAME
+        module_yaml['receivers']['prometheus']['config']['global']['external_labels']['p8s_logzio_name'] = P8S_LOGZIO_NAME
         for module in LOGZIO_MODULES:
             if module == 'aws':
                 if scrape_jobs_config.aws not in module_yaml['receivers']['prometheus']['config']['scrape_configs']:
                     module_yaml['receivers']['prometheus']['config']['scrape_configs'].append(scrape_jobs_config.aws)
         _dump_and_close_file(module_yaml, module_file)
         logger.info('Opentelemtry collector configuration ready')
-
 
 # Ading region and scrape interval to cloudwatch exporter configuration
 def _add_aws_global_settings():
@@ -97,7 +83,6 @@ def _add_aws_global_settings():
         module_yaml['region'] = AWS_REGION
         module_yaml['period_seconds'] = int(SCRAPE_INTERVAL)
         _dump_and_close_file(module_yaml, module_file)
-
 
 # Add metrics to scrape based on AWS_NAMESPACES environment variable
 def _add_cloudwatch_namesapce(namespace):
@@ -120,7 +105,6 @@ def _add_cloudwatch_config():
         _add_cloudwatch_namesapce(namespace)
     logger.info('Cloudwatch exporter configuration ready')
 
-
 # Add custom cloudwatch exporter configuration
 def _load_aws_custom_config():
     yaml = YAML()
@@ -129,7 +113,6 @@ def _load_aws_custom_config():
         with open('./configuration/cloudwatch.yml', 'w') as cloudwatch_file:
             _dump_and_close_file(custom_config_yaml, cloudwatch_file)
             logger.info('Custom configuration was assigned to cloudwatch exporter')
-
 
 # Clean volume existing configuration
 def _init_configuration():
@@ -142,7 +125,6 @@ def _init_configuration():
         with open('./configuration_raw/otel_raw.yml', 'r+') as raw_file:
             raw_yaml = yaml.load(raw_file)
         _dump_and_close_file(raw_yaml, otel_file)
-
 
 # Expose api endpoints using flask
 def _expose_configuration():
