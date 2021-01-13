@@ -17,7 +17,7 @@ This docker compose uses containers with the following images:
 curl https://raw.githubusercontent.com/logzio/logzio-aws-metrics/main/docker-compose.yml -o docker-compose.yml
 ```
 * Define environment varibales and run `docker-compose up`
-```shell
+```bash
 LOGZIO_MODULES="aws" \
 AWS_ACCESS_KEY_ID=<<AWS_ACCESS_KEY_ID>> \
 AWS_SECRET_ACCESS_KEY=<<AWS_SECRET_ACCESS_KEY>> \
