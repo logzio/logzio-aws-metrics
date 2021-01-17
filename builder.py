@@ -1,7 +1,7 @@
-from ruamel.yaml import YAML
 from util import input_validator, scrape_jobs_config, api
 import os
 import logging
+import yaml
 
 # Environment variables
 SCRAPE_INTERVAL = int(os.environ["SCRAPE_INTERVAL"])
@@ -62,7 +62,6 @@ def _get_region_code(region):
 
 # close yaml file
 def _dump_and_close_file(module_yaml, module_file):
-    yaml = YAML()
     yaml.preserve_quotes = True
     module_file.seek(0)
     yaml.dump(module_yaml, module_file)
@@ -73,9 +72,8 @@ def _dump_and_close_file(module_yaml, module_file):
 # Updating opentelemrty configuration with remotewrite endpoint, token and scrape jobs
 def _update_otel_config():
     logger.info('Adding opentelemtry collector configuration')
-    yaml = YAML()
     with open('./configuration/otel.yml', 'r+') as module_file:
-        module_yaml = yaml.load(module_file)
+        module_yaml = yaml.safe_load(module_file)
         module_yaml['exporters']['prometheusremotewrite']['endpoint'] = _get_listener_url(REGION)
         module_yaml['exporters']['prometheusremotewrite']['headers'][
             'Authorization'] = f'Bearer {LOGZIO_TOKEN}'
@@ -91,9 +89,8 @@ def _update_otel_config():
 
 # Ading region and scrape interval to cloudwatch exporter configuration
 def _add_aws_global_settings():
-    yaml = YAML()
     with open('./configuration/cloudwatch.yml', 'r+') as module_file:
-        module_yaml = yaml.load(module_file)
+        module_yaml = yaml.safe_load(module_file)
         module_yaml['region'] = AWS_REGION
         module_yaml['period_seconds'] = int(SCRAPE_INTERVAL)
         _dump_and_close_file(module_yaml, module_file)
@@ -101,12 +98,11 @@ def _add_aws_global_settings():
 
 # Add metrics to scrape based on AWS_NAMESPACES environment variable
 def _add_cloudwatch_namesapce(namespace):
-    yaml = YAML()
     namespace = namespace.split('AWS/')[-1]
     with open('./configuration/cloudwatch.yml', 'r+') as cloudwatch_file:
-        cloudwatch_yaml = yaml.load(cloudwatch_file)
+        cloudwatch_yaml = yaml.safe_load(cloudwatch_file)
         with open('./cw_namespaces/{}.yml'.format(namespace), 'r+') as namespace_file:
-            namespace_yaml = yaml.load(namespace_file)
+            namespace_yaml = yaml.safe_load(namespace_file)
             if namespace_yaml not in cloudwatch_yaml['metrics']:
                 cloudwatch_yaml['metrics'].extend(namespace_yaml)
         _dump_and_close_file(cloudwatch_yaml, cloudwatch_file)
@@ -123,9 +119,8 @@ def _add_cloudwatch_config():
 
 # Add custom cloudwatch exporter configuration
 def _load_aws_custom_config():
-    yaml = YAML()
     with open('./configuration/custom/cloudwatch.yml', 'r+') as custom_config_file:
-        custom_config_yaml = yaml.load(custom_config_file)
+        custom_config_yaml = yaml.safe_load(custom_config_file)
         with open('./configuration/cloudwatch.yml', 'w') as cloudwatch_file:
             _dump_and_close_file(custom_config_yaml, cloudwatch_file)
             logger.info('Custom configuration was assigned to cloudwatch exporter')
@@ -133,14 +128,13 @@ def _load_aws_custom_config():
 
 # Clean volume existing configuration
 def _init_configuration():
-    yaml = YAML()
     with open('./configuration/cloudwatch.yml', 'r+') as cloudwatch_file:
         with open('./configuration_raw/cloudwatch_raw.yml', 'r+') as raw_file:
-            raw_yaml = yaml.load(raw_file)
+            raw_yaml = yaml.safe_load(raw_file)
         _dump_and_close_file(raw_yaml, cloudwatch_file)
     with open('./configuration/otel.yml', 'r+') as otel_file:
         with open('./configuration_raw/otel_raw.yml', 'r+') as raw_file:
-            raw_yaml = yaml.load(raw_file)
+            raw_yaml = yaml.safe_load(raw_file)
         _dump_and_close_file(raw_yaml, otel_file)
 
 
