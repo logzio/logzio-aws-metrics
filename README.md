@@ -1,7 +1,7 @@
 # logzio-aws-metrics
 **IMPORTANT ⚠️ :** This project should be used by selected beta customers only
 
-We created this project to simplify shipping Prometheus format metrics from Cloudwatch.
+This project allows you to collect Prometheus format metrics from Cloudwatch with cloudwatch exporter, and ship them to logz.io using Opentelemtry collector.
 
 ### Schema
 ![image info](./util/architecture.jpg)
