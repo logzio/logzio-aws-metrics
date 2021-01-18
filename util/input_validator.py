@@ -5,6 +5,9 @@ import re
 from util.data import aws_namespaces, aws_regions
 
 
+# import logging
+# logging.basicConfig(format='%(asctime)s\t\t%(levelname)s\t[%(name)s]\t%(filename)s:%(lineno)d\t%(message)s')
+
 # is_valid_logzio_token checks if a given token is a valid logz.io token
 def is_valid_logzio_token(token):
     if type(token) is not str:
@@ -56,10 +59,10 @@ def is_valid_aws_namespaces(namespaces):
         raise TypeError("AWS namespaces parameter should be a string")
     try:
         aws_namespaces_list = namespaces.replace(' ', '').split(',')
+        to_remove = []
         for n in aws_namespaces_list:
             if n not in aws_namespaces:
-                raise ValueError(f'{n} namespace is not supported')
-    except KeyError:
-        raise
-    return aws_namespaces_list
-
+                to_remove.append(n)
+    except KeyError as e:
+        raise KeyError(f'Could not find aws services: {e}')
+    return list(set(aws_namespaces_list) - set(to_remove)), to_remove
