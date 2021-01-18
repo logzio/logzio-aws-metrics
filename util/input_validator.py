@@ -5,9 +5,6 @@ import re
 from util.data import aws_namespaces, aws_regions
 
 
-# import logging
-# logging.basicConfig(format='%(asctime)s\t\t%(levelname)s\t[%(name)s]\t%(filename)s:%(lineno)d\t%(message)s')
-
 # is_valid_logzio_token checks if a given token is a valid logz.io token
 def is_valid_logzio_token(token):
     if type(token) is not str:
