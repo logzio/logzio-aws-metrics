@@ -36,6 +36,8 @@ def _create_logger():
 def validate_input():
     input_validator.is_valid_logzio_token(LOGZIO_TOKEN)
     input_validator.is_valid_aws_region(AWS_REGION)
+    input_validator.is_valid_p8s_logzio_name(P8S_LOGZIO_NAME)
+    input_validator.is_valid_custom_listener(CUSTOM_LISTENER)
     input_validator.is_valid_logzio_region_code(REGION)
     input_validator.is_valid_scrape_interval(SCRAPE_INTERVAL)
     namespaces, removed_namespaces = input_validator.is_valid_aws_namespaces(AWS_NAMESPACES)

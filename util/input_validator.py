@@ -63,3 +63,12 @@ def is_valid_aws_namespaces(namespaces):
     except KeyError as e:
         raise KeyError(f'Could not find aws services: {e}')
     return list(set(aws_namespaces_list) - set(to_remove)), to_remove
+
+
+def is_valid_p8s_logzio_name(p8s):
+    if type(p8s) is not str:
+        raise TypeError("P8S_LOGZIO_NAME should be a string")
+
+def is_valid_custom_listener(listener):
+    if type(listener) is not str:
+        raise TypeError("Custom listener should be a string")
