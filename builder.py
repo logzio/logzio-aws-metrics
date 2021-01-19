@@ -14,6 +14,12 @@ LOGZIO_MODULES = os.environ['LOGZIO_MODULES']
 CUSTOM_CONFIG_PATH = os.environ['CUSTOM_CONFIG_PATH']
 P8S_LOGZIO_NAME = os.environ['P8S_LOGZIO_NAME']
 CUSTOM_LISTENER = os.environ['CUSTOM_LISTENER']
+# configuration files path
+CW_CONFIG = './configuration/cloudwatch.yml'
+CW_RAW_CONFIG = './configuration_raw/cloudwatch_raw.yml'
+CUSTOM_CW_PATH = './configuration/custom/cloudwatch.yml'
+OTEL_CONFIG = './configuration/otel.yml'
+OTEL_RAW_CONFIG = './configuration_raw/otel_raw.yml'
 
 # Logging config
 DEFAULT_LOG_LEVEL = "INFO"
@@ -32,12 +38,16 @@ def _create_logger():
     return logging.getLogger(__name__)
 
 
+logger = _create_logger()
+
+
 # Validate inputs
 def validate_input():
     input_validator.is_valid_logzio_token(LOGZIO_TOKEN)
     input_validator.is_valid_aws_region(AWS_REGION)
     input_validator.is_valid_p8s_logzio_name(P8S_LOGZIO_NAME)
-    input_validator.is_valid_custom_listener(CUSTOM_LISTENER)
+    if CUSTOM_LISTENER:
+        input_validator.is_valid_custom_listener(CUSTOM_LISTENER)
     input_validator.is_valid_logzio_region_code(REGION)
     input_validator.is_valid_scrape_interval(SCRAPE_INTERVAL)
     namespaces, removed_namespaces = input_validator.is_valid_aws_namespaces(AWS_NAMESPACES)
@@ -70,15 +80,15 @@ def _dump_and_close_file(module_yaml, module_file):
 
 
 # Updating opentelemrty configuration with remotewrite endpoint, token and scrape jobs
-def _update_otel_config():
+def _update_otel_config(token, region, p8s_name, otel_config):
     logger.info('Adding opentelemtry collector configuration')
-    with open('./configuration/otel.yml', 'r+') as module_file:
+    with open(otel_config, 'r+') as module_file:
         module_yaml = yaml.safe_load(module_file)
-        module_yaml['exporters']['prometheusremotewrite']['endpoint'] = _get_listener_url(REGION)
+        module_yaml['exporters']['prometheusremotewrite']['endpoint'] = _get_listener_url(region)
         module_yaml['exporters']['prometheusremotewrite']['headers'][
-            'Authorization'] = f'Bearer {LOGZIO_TOKEN}'
+            'Authorization'] = f'Bearer {token}'
         module_yaml['receivers']['prometheus']['config']['global']['external_labels'][
-            'p8s_logzio_name'] = P8S_LOGZIO_NAME
+            'p8s_logzio_name'] = p8s_name
         if scrape_jobs_config.aws not in module_yaml['receivers']['prometheus']['config']['scrape_configs']:
             module_yaml['receivers']['prometheus']['config']['scrape_configs'].append(scrape_jobs_config.aws)
         _dump_and_close_file(module_yaml, module_file)
@@ -86,18 +96,18 @@ def _update_otel_config():
 
 
 # Ading region and scrape interval to cloudwatch exporter configuration
-def _add_aws_global_settings():
-    with open('./configuration/cloudwatch.yml', 'r+') as module_file:
+def _add_aws_global_settings(cw_config, aws_region, scrape_interval):
+    with open(cw_config, 'r+') as module_file:
         module_yaml = yaml.safe_load(module_file)
-        module_yaml['region'] = AWS_REGION
-        module_yaml['period_seconds'] = int(SCRAPE_INTERVAL)
+        module_yaml['region'] = aws_region
+        module_yaml['period_seconds'] = int(scrape_interval)
         _dump_and_close_file(module_yaml, module_file)
 
 
 # Add metrics to scrape based on AWS_NAMESPACES environment variable
-def _add_cloudwatch_namesapce(namespace):
+def _add_cloudwatch_namesapce(namespace, cw_config):
     namespace = namespace.split('AWS/')[-1]
-    with open('./configuration/cloudwatch.yml', 'r+') as cloudwatch_file:
+    with open(cw_config, 'r+') as cloudwatch_file:
         cloudwatch_yaml = yaml.safe_load(cloudwatch_file)
         with open('./cw_namespaces/{}.yml'.format(namespace), 'r+') as namespace_file:
             namespace_yaml = yaml.safe_load(namespace_file)
@@ -107,31 +117,31 @@ def _add_cloudwatch_namesapce(namespace):
         logger.info(f'AWS/{namespace} was added to cloudwatch exporter configuration')
 
 
-def _add_cloudwatch_config():
+def _add_cloudwatch_config(namespaces, cw_config, aws_region, scrape_interval):
     logger.info('Adding cloudwatch exporter configuration')
-    _add_aws_global_settings()
-    for namespace in AWS_NAMESPACES:
-        _add_cloudwatch_namesapce(namespace)
+    _add_aws_global_settings(cw_config, aws_region, scrape_interval)
+    for namespace in namespaces:
+        _add_cloudwatch_namesapce(namespace, cw_config)
     logger.info('Cloudwatch exporter configuration ready')
 
 
 # Add custom cloudwatch exporter configuration
-def _load_aws_custom_config():
-    with open('./configuration/custom/cloudwatch.yml', 'r+') as custom_config_file:
+def _load_aws_custom_config(cw_config, cw_custom_path):
+    with open(cw_custom_path, 'r+') as custom_config_file:
         custom_config_yaml = yaml.safe_load(custom_config_file)
-        with open('./configuration/cloudwatch.yml', 'w') as cloudwatch_file:
+        with open(cw_config, 'w') as cloudwatch_file:
             _dump_and_close_file(custom_config_yaml, cloudwatch_file)
             logger.info('Custom configuration was assigned to cloudwatch exporter')
 
 
 # Clean volume existing configuration
-def _init_configuration():
-    with open('./configuration/cloudwatch.yml', 'r+') as cloudwatch_file:
-        with open('./configuration_raw/cloudwatch_raw.yml', 'r+') as raw_file:
+def _init_configuration(cw_config, cw_raw_config, otel_config, otel_raw_config):
+    with open(cw_config, 'r+') as cloudwatch_file:
+        with open(cw_raw_config, 'r+') as raw_file:
             raw_yaml = yaml.safe_load(raw_file)
         _dump_and_close_file(raw_yaml, cloudwatch_file)
-    with open('./configuration/otel.yml', 'r+') as otel_file:
-        with open('./configuration_raw/otel_raw.yml', 'r+') as raw_file:
+    with open(otel_config, 'r+') as otel_file:
+        with open(otel_raw_config, 'r+') as raw_file:
             raw_yaml = yaml.safe_load(raw_file)
         _dump_and_close_file(raw_yaml, otel_file)
 
@@ -143,13 +153,13 @@ def _expose_configuration():
     api.app.run(host='0.0.0.0', port=5001)
 
 
-logger = _create_logger()
-AWS_NAMESPACES, removed_namespaces = validate_input()
-logger.warning(f'{removed_namespaces} namespaces are unsupported')
-_init_configuration()
-_update_otel_config()
-if CUSTOM_CONFIG_PATH:
-    _load_aws_custom_config()
-else:
-    _add_cloudwatch_config()
-_expose_configuration()
+if __name__ == '__main__':
+    AWS_NAMESPACES, removed_namespaces = validate_input()
+    logger.warning(f'{removed_namespaces} namespaces are unsupported')
+    _init_configuration(CW_CONFIG, CW_RAW_CONFIG, OTEL_CONFIG, OTEL_RAW_CONFIG)
+    _update_otel_config(LOGZIO_TOKEN, REGION, P8S_LOGZIO_NAME, OTEL_CONFIG)
+    if CUSTOM_CONFIG_PATH:
+        _load_aws_custom_config(CW_CONFIG, CUSTOM_CONFIG_PATH)
+    else:
+        _add_cloudwatch_config(AWS_NAMESPACES, CW_CONFIG, AWS_REGION, SCRAPE_INTERVAL)
+    _expose_configuration()

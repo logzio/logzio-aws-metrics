@@ -1,0 +1,11 @@
+region: us-west-1
+period_seconds: 60
+set_timestamp: true
+metrics:
+- aws_dimensions:
+    - CacheNodeId
+    - CacheClusterId
+  aws_metric_name: NetworkBytesOut
+  aws_namespace: AWS/Elasticache
+  aws_statistics:
+    - Sum

@@ -54,21 +54,31 @@ def is_valid_aws_region(aws_region):
 def is_valid_aws_namespaces(namespaces):
     if namespaces is None or type(namespaces) is not str:
         raise TypeError("AWS namespaces parameter should be a string")
-    try:
-        aws_namespaces_list = namespaces.replace(' ', '').split(',')
-        to_remove = []
-        for n in aws_namespaces_list:
-            if n not in aws_namespaces:
-                to_remove.append(n)
-    except KeyError as e:
-        raise KeyError(f'Could not find aws services: {e}')
-    return list(set(aws_namespaces_list) - set(to_remove)), to_remove
+    aws_namespaces_list = namespaces.replace(' ', '').split(',')
+    if aws_namespaces_list == ['']:
+        raise ValueError('Cant find aws namespaces')
+    to_remove = []
+    for n in aws_namespaces_list:
+        if n not in aws_namespaces:
+            to_remove.append(n)
+    ns_list = sorted(list(set(aws_namespaces_list) - set(to_remove)))
+    if ns_list:
+        return list(dict.fromkeys(ns_list)), to_remove
+    else:
+        raise ValueError('No valid aws namespaces')
 
 
 def is_valid_p8s_logzio_name(p8s):
     if type(p8s) is not str:
         raise TypeError("P8S_LOGZIO_NAME should be a string")
 
+
 def is_valid_custom_listener(listener):
     if type(listener) is not str:
         raise TypeError("Custom listener should be a string")
+    regex = r'^(http|https):\/\/(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])(:[0-9]+)?$'
+    match_obj = re.search(regex, listener)
+    if match_obj is not None and match_obj.group() is not None:
+        return True
+    else:
+        raise ValueError("Invalid custom listener: {}".format(listener))
