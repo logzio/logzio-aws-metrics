@@ -31,5 +31,6 @@ jobs:
         SCRAPE_INTERVAL: 300
         CUSTOM_CONFIG_PATH: ''
         P8S_LOGZIO_NAME: tests
+        CUSTOM_LISTENER: ''
       run: |
         pytest tests.py
