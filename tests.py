@@ -126,11 +126,11 @@ class TestInput(unittest.TestCase):
 
     def test_is_valid_scrape_interval(self):
         # Fail type
-        non_valid_types = ['12', None, False, ['string', 'string']]
+        non_valid_types = ['12', None, False, ['string', 'string'], 4j]
         for t in non_valid_types:
             self.assertRaises(TypeError, iv.is_valid_scrape_interval, t)
         # Fail Value
-        non_valid_vals = [-60, 55, 10, 306, 4j]
+        non_valid_vals = [-60, 55, 10, 306]
         for v in non_valid_vals:
             self.assertRaises(ValueError, iv.is_valid_scrape_interval, v)
         # Success
