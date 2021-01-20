@@ -40,7 +40,9 @@ def is_valid_logz_io_modules(modules, suported_modules):
 
 
 def is_valid_scrape_interval(interval):
-    if (interval % 60) != 0:
+    if interval is None or type(interval) is not int:
+        raise TypeError("Scrape interval parameter should be a integer")
+    if (interval % 60) != 0 or interval <= 0:
         raise ValueError('Scrape interval should be in multiplies of 60')
 
 
@@ -54,12 +56,31 @@ def is_valid_aws_region(aws_region):
 def is_valid_aws_namespaces(namespaces):
     if namespaces is None or type(namespaces) is not str:
         raise TypeError("AWS namespaces parameter should be a string")
-    try:
-        aws_namespaces_list = namespaces.replace(' ', '').split(',')
-        for n in aws_namespaces_list:
-            if n not in aws_namespaces:
-                raise ValueError(f'{n} namespace is not supported')
-    except KeyError:
-        raise
-    return aws_namespaces_list
+    aws_namespaces_list = namespaces.replace(' ', '').split(',')
+    if aws_namespaces_list == ['']:
+        raise ValueError('Cant find aws namespaces')
+    to_remove = []
+    for n in aws_namespaces_list:
+        if n not in aws_namespaces:
+            to_remove.append(n)
+    ns_list = sorted(list(set(aws_namespaces_list) - set(to_remove)))
+    if ns_list:
+        return list(dict.fromkeys(ns_list)), to_remove
+    else:
+        raise ValueError('No valid aws namespaces')
 
+
+def is_valid_p8s_logzio_name(p8s):
+    if type(p8s) is not str:
+        raise TypeError("P8S_LOGZIO_NAME should be a string")
+
+
+def is_valid_custom_listener(listener):
+    if type(listener) is not str:
+        raise TypeError("Custom listener should be a string")
+    regex = r'^(http|https):\/\/(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])(:[0-9]+)?$'
+    match_obj = re.search(regex, listener)
+    if match_obj is not None and match_obj.group() is not None:
+        return True
+    else:
+        raise ValueError("Invalid custom listener: {}".format(listener))

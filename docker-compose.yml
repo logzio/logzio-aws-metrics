@@ -17,7 +17,7 @@ services:
      depends_on:
      - logzio-config-builder
   logzio-config-builder:
-     image: logzio-config-builder:latest
+     image: logzio/cloudwatch-config-builder:latest
      container_name: logzio-config-builder
      volumes:
      - config_files:/configuration
@@ -28,9 +28,10 @@ services:
      - LOGZIO_MODULES=${LOGZIO_MODULES}
      - LOGZIO_TOKEN=${LOGZIO_TOKEN}
      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-     - SCRAPE_INTERVAL=${SCRAPE_INTERVAL}
+     - SCRAPE_INTERVAL=${SCRAPE_INTERVAL:-300}
      - CUSTOM_CONFIG_PATH=${CUSTOM_CONFIG_PATH}
-     - P8S_LOGZIO_NAME=${P8S_LOGZIO_NAME}
+     - P8S_LOGZIO_NAME=${P8S_LOGZIO_NAME:-logzio-cloudwatch-metrics}
+     - CUSTOM_LISTENER=${CUSTOM_LISTENER}
      ports:
      - 5001:5001
   cloudwatch-exporter:

@@ -31,5 +31,18 @@ jobs:
         SCRAPE_INTERVAL: 300
         CUSTOM_CONFIG_PATH: ''
         P8S_LOGZIO_NAME: tests
+        CUSTOM_LISTENER: ''
+      run: |
+        pytest tests.py
+    - name: Test with pytest (custom listener)
+      env:
+        LOGZIO_REGION: us
+        AWS_NAMESPACES: AWS/EC2,AWS/Lambda,AWS/CloudFront,aws/wrong,AWS/nosuch
+        LOGZIO_TOKEN: jusTaFaKeTOKEndmtQPilCqwerAAssPP
+        AWS_DEFAULT_REGION: us-east-1
+        SCRAPE_INTERVAL: 300
+        CUSTOM_CONFIG_PATH: ''
+        P8S_LOGZIO_NAME: tests
+        CUSTOM_LISTENER: https://custom.listener:3000
       run: |
         pytest tests.py
