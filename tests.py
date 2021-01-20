@@ -77,12 +77,12 @@ class TestBuilder(unittest.TestCase):
     def test_get_listener_url(self):
         if not builder.CUSTOM_LISTENER:
             # Equal
-            self.assertEqual(builder._get_listener_url('us'), 'listener.logz.io')
-            self.assertEqual(builder._get_listener_url('eu'), 'listener-eu.logz.io')
-            self.assertEqual(builder._get_listener_url('ca'), 'listener-ca.logz.io')
+            self.assertEqual(builder._get_listener_url('us'), 'https://listener.logz.io:8053')
+            self.assertEqual(builder._get_listener_url('eu'), 'https://listener-eu.logz.io:8053')
+            self.assertEqual(builder._get_listener_url('ca'), 'https://listener-ca.logz.io:8053')
             # Should fail
-            self.assertNotEqual(builder._get_listener_url('a'), 'listener-a.logz.io')
-            self.assertNotEqual(builder._get_listener_url('6'), 'listener-6.logz.io')
+            self.assertNotEqual(builder._get_listener_url('a'), 'https://listener-a.logz.io:8053')
+            self.assertNotEqual(builder._get_listener_url('6'), 'https://listener-6.logz.io:8053')
         else:
             # Equal
             self.assertEqual(builder._get_listener_url('us'), builder.CUSTOM_LISTENER)
