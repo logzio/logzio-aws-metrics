@@ -40,7 +40,9 @@ def is_valid_logz_io_modules(modules, suported_modules):
 
 
 def is_valid_scrape_interval(interval):
-    if (interval % 60) != 0:
+    if interval is None or type(interval) is not int:
+        raise TypeError("Scrape interval parameter should be a integer")
+    if (interval % 60) != 0 or interval <= 0:
         raise ValueError('Scrape interval should be in multiplies of 60')
 
 

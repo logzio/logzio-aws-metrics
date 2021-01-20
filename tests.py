@@ -125,8 +125,12 @@ class TestInput(unittest.TestCase):
             self.fail(f'Unexpected error {e}')
 
     def test_is_valid_scrape_interval(self):
+        # Fail type
+        non_valid_types = ['12', None, False, ['string', 'string']]
+        for t in non_valid_types:
+            self.assertRaises(TypeError, iv.is_valid_scrape_interval, t)
         # Fail Value
-        non_valid_vals = ['12', 55, 10, 306]
+        non_valid_vals = [-60, 55, 10, 306, 4j]
         for v in non_valid_vals:
             self.assertRaises(ValueError, iv.is_valid_scrape_interval, v)
         # Success
@@ -174,7 +178,8 @@ class TestInput(unittest.TestCase):
         for t in non_valid_types:
             self.assertRaises(TypeError, iv.is_valid_custom_listener, t)
         # Fail Value
-        non_valid_vals = ['12', 'www.custom.listener:3000', 'custom.listener:3000', 'htt://custom.listener:3000', 'https://custom.listener:','https://custom.']
+        non_valid_vals = ['12', 'www.custom.listener:3000', 'custom.listener:3000', 'htt://custom.listener:3000',
+                          'https://custom.listener:', 'https://custom.']
         for v in non_valid_vals:
             self.assertRaises(ValueError, iv.is_valid_custom_listener, v)
         # Success
