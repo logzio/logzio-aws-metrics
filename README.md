@@ -1,2 +1,2 @@
 # logzio-aws-metrics
-Prometheus metrics
+⚠️ In development

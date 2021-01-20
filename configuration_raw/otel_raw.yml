@@ -8,7 +8,7 @@ receivers:
 
 exporters:
   prometheusremotewrite:
-    endpoint: https://listener.logz.io:8053
+    endpoint: 
     headers:
       Authorization:
   logging:
