@@ -1,3 +1,4 @@
+# Auto tests
 import unittest
 import yaml
 import builder
