@@ -77,12 +77,10 @@ class TestBuilder(unittest.TestCase):
     def test_get_listener_url(self):
         if not builder.CUSTOM_LISTENER:
             # Equal
+            valid_ns = ["au", "ca", "eu", "nl", "uk", "wa"]
+            for ns in valid_ns:
+                self.assertEqual(builder._get_listener_url(ns), f'https://listener-{ns}.logz.io:8053')
             self.assertEqual(builder._get_listener_url('us'), 'https://listener.logz.io:8053')
-            self.assertEqual(builder._get_listener_url('eu'), 'https://listener-eu.logz.io:8053')
-            self.assertEqual(builder._get_listener_url('ca'), 'https://listener-ca.logz.io:8053')
-            # Should fail
-            self.assertNotEqual(builder._get_listener_url('a'), 'https://listener-a.logz.io:8053')
-            self.assertNotEqual(builder._get_listener_url('6'), 'https://listener-6.logz.io:8053')
         else:
             # Equal
             self.assertEqual(builder._get_listener_url('us'), builder.CUSTOM_LISTENER)
@@ -94,14 +92,13 @@ class TestInput(unittest.TestCase):
 
     def test_is_valid_logzio_token(self):
         # Fail Type
-        self.assertRaises(TypeError, iv.is_valid_logzio_token, -2)
-        self.assertRaises(TypeError, iv.is_valid_logzio_token, None)
-        self.assertRaises(TypeError, iv.is_valid_logzio_token, 4j)
-        self.assertRaises(TypeError, iv.is_valid_logzio_token, ['token', 'token'])
+        non_valid_types = [-2, None, 4j, ['string', 'string']]
+        for t in non_valid_types:
+            self.assertRaises(TypeError, iv.is_valid_logzio_token, t)
         # Fail Value
-        self.assertRaises(ValueError, iv.is_valid_logzio_token, '12')
-        self.assertRaises(ValueError, iv.is_valid_logzio_token, 'quwyekclshyrflclhf')
-        self.assertRaises(ValueError, iv.is_valid_logzio_token, 'rDRJEidvpIbecUwshyCn4kuUjbymiHev')
+        non_valid_vals = ['12', 'quwyekclshyrflclhf', 'rDRJEidvpIbecUwshyCn4kuUjbymiHev']
+        for v in non_valid_vals:
+            self.assertRaises(ValueError, iv.is_valid_logzio_token, v)
         # Success
         try:
             iv.is_valid_logzio_token('rDRJEidvpIbecUwshyCnGkuUjbymiHev')
@@ -110,14 +107,13 @@ class TestInput(unittest.TestCase):
 
     def test_is_valid_logzio_region_code(self):
         # Fail Type
-        self.assertRaises(TypeError, iv.is_valid_logzio_region_code, -2)
-        self.assertRaises(TypeError, iv.is_valid_logzio_region_code, None)
-        self.assertRaises(TypeError, iv.is_valid_logzio_region_code, 4j)
-        self.assertRaises(TypeError, iv.is_valid_logzio_region_code, ['au', 'eu'])
+        non_valid_types = [-2, None, 4j, ['string', 'string']]
+        for t in non_valid_types:
+            self.assertRaises(TypeError, iv.is_valid_logzio_region_code, t)
         # Fail Value
-        self.assertRaises(ValueError, iv.is_valid_logzio_region_code, '12')
-        self.assertRaises(ValueError, iv.is_valid_logzio_region_code, 'usa')
-        self.assertRaises(ValueError, iv.is_valid_logzio_region_code, 'au,ca')
+        non_valid_vals = ['12', 'usa', 'au,ca']
+        for v in non_valid_vals:
+            self.assertRaises(ValueError, iv.is_valid_logzio_region_code, v)
         # Success
         try:
             iv.is_valid_logzio_region_code('ca')
@@ -130,9 +126,9 @@ class TestInput(unittest.TestCase):
 
     def test_is_valid_scrape_interval(self):
         # Fail Value
-        self.assertRaises(ValueError, iv.is_valid_scrape_interval, 55)
-        self.assertRaises(ValueError, iv.is_valid_scrape_interval, 10)
-        self.assertRaises(ValueError, iv.is_valid_scrape_interval, 306)
+        non_valid_vals = ['12', 55, 10, 306]
+        for v in non_valid_vals:
+            self.assertRaises(ValueError, iv.is_valid_scrape_interval, v)
         # Success
         try:
             iv.is_valid_scrape_interval(360000)
@@ -145,10 +141,9 @@ class TestInput(unittest.TestCase):
 
     def test_is_valid_aws_namespaces(self):
         # Fail Type
-        self.assertRaises(TypeError, iv.is_valid_aws_namespaces, -2)
-        self.assertRaises(TypeError, iv.is_valid_aws_namespaces, None)
-        self.assertRaises(TypeError, iv.is_valid_aws_namespaces, 4j)
-        self.assertRaises(TypeError, iv.is_valid_aws_namespaces, ['AWS/EC2', 'AWS/RDS'])
+        non_valid_types = [-2, None, 4j, ['string', 'string']]
+        for t in non_valid_types:
+            self.assertRaises(TypeError, iv.is_valid_aws_namespaces, t)
         # Fail Value
         self.assertRaises(ValueError, iv.is_valid_aws_namespaces, '')
         self.assertRaises(ValueError, iv.is_valid_aws_namespaces, 'AWS/ec2,  aws/RDS, AWS/lambda, AWS/fdfdf')
@@ -164,10 +159,9 @@ class TestInput(unittest.TestCase):
 
     def test_is_valid_p8s_logzio_name(self):
         # Fail Type
-        self.assertRaises(TypeError, iv.is_valid_p8s_logzio_name, -2)
-        self.assertRaises(TypeError, iv.is_valid_p8s_logzio_name, None)
-        self.assertRaises(TypeError, iv.is_valid_p8s_logzio_name, 4j)
-        self.assertRaises(TypeError, iv.is_valid_p8s_logzio_name, ['p8s', 'p8s'])
+        non_valid_types = [-2, None, 4j, ['string', 'string']]
+        for t in non_valid_types:
+            self.assertRaises(TypeError, iv.is_valid_p8s_logzio_name, t)
         # Success
         try:
             iv.is_valid_p8s_logzio_name('dev5')
@@ -176,17 +170,13 @@ class TestInput(unittest.TestCase):
 
     def test_is_valid_custom_listener(self):
         # Fail Type
-        self.assertRaises(TypeError, iv.is_valid_custom_listener, -2)
-        self.assertRaises(TypeError, iv.is_valid_custom_listener, None)
-        self.assertRaises(TypeError, iv.is_valid_custom_listener, 4j)
-        self.assertRaises(TypeError, iv.is_valid_custom_listener, ['token', 'token'])
+        non_valid_types = [-2, None, 4j, ['string', 'string']]
+        for t in non_valid_types:
+            self.assertRaises(TypeError, iv.is_valid_custom_listener, t)
         # Fail Value
-        self.assertRaises(ValueError, iv.is_valid_custom_listener, '12')
-        self.assertRaises(ValueError, iv.is_valid_custom_listener, 'www.custom.listener:3000')
-        self.assertRaises(ValueError, iv.is_valid_custom_listener, 'custom.listener:3000')
-        self.assertRaises(ValueError, iv.is_valid_custom_listener, 'htt://custom.listener:3000')
-        self.assertRaises(ValueError, iv.is_valid_custom_listener, 'https://custom.listener:')
-        self.assertRaises(ValueError, iv.is_valid_custom_listener, 'https://custom.')
+        non_valid_vals = ['12', 'www.custom.listener:3000', 'custom.listener:3000', 'htt://custom.listener:3000', 'https://custom.listener:','https://custom.']
+        for v in non_valid_vals:
+            self.assertRaises(ValueError, iv.is_valid_custom_listener, v)
         # Success
         try:
             iv.is_valid_custom_listener('http://custom.listener:3000')
