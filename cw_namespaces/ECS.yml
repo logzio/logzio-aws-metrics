@@ -103,42 +103,10 @@
   aws_statistics:
   - Maximum
 - aws_dimensions:
-  - ClusterName
-  - ServiceName
-  - TaskDefinitionFamily
-  aws_metric_name: CpuUtilized
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Average
-- aws_dimensions:
-  - ServiceName
-  - ClusterName
-  - TaskDefinitionFamily
-  aws_metric_name: CpuUtilized
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Average
-- aws_dimensions:
   - TaskDefinitionFamily
   - ClusterName
   - ServiceName
   aws_metric_name: CpuUtilized
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Average
-- aws_dimensions:
-  - ClusterName
-  - ServiceName
-  - TaskDefinitionFamily
-  aws_metric_name: CpuReserved
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Average
-- aws_dimensions:
-  - ServiceName
-  - ClusterName
-  - TaskDefinitionFamily
-  aws_metric_name: CpuReserved
   aws_namespace: AWS/ECS
   aws_statistics:
   - Average
@@ -151,42 +119,10 @@
   aws_statistics:
   - Average
 - aws_dimensions:
-  - ClusterName
-  - ServiceName
-  - TaskDefinitionFamily
-  aws_metric_name: MemoryUtilized
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Average
-- aws_dimensions:
-  - ServiceName
-  - ClusterName
-  - TaskDefinitionFamily
-  aws_metric_name: MemoryUtilized
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Average
-- aws_dimensions:
   - TaskDefinitionFamily
   - ClusterName
   - ServiceName
   aws_metric_name: MemoryUtilized
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Average
-- aws_dimensions:
-  - ClusterName
-  - ServiceName
-  - TaskDefinitionFamily
-  aws_metric_name: MemoryReserved
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Average
-- aws_dimensions:
-  - ServiceName
-  - ClusterName
-  - TaskDefinitionFamily
-  aws_metric_name: MemoryReserved
   aws_namespace: AWS/ECS
   aws_statistics:
   - Average
@@ -207,41 +143,9 @@
   aws_statistics:
   - Sum
 - aws_dimensions:
-  - ServiceName
-  - ClusterName
-  - TaskDefinitionFamily
-  aws_metric_name: StorageReadBytes
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - TaskDefinitionFamily
-  - ClusterName
-  - ServiceName
-  aws_metric_name: StorageReadBytes
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Sum
-- aws_dimensions:
   - ClusterName
   - ServiceName
   - TaskDefinitionFamily
-  aws_metric_name: StorageWriteBytes
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - ServiceName
-  - ClusterName
-  - TaskDefinitionFamily
-  aws_metric_name: StorageWriteBytes
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - TaskDefinitionFamily
-  - ClusterName
-  - ServiceName
   aws_metric_name: StorageWriteBytes
   aws_namespace: AWS/ECS
   aws_statistics:
@@ -258,38 +162,6 @@
   - ServiceName
   - ClusterName
   - TaskDefinitionFamily
-  aws_metric_name: NetworkTxBytes
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - TaskDefinitionFamily
-  - ClusterName
-  - ServiceName
-  aws_metric_name: NetworkTxBytes
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - ClusterName
-  - ServiceName
-  - TaskDefinitionFamily
-  aws_metric_name: NetworkRxBytes
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - ServiceName
-  - ClusterName
-  - TaskDefinitionFamily
-  aws_metric_name: NetworkRxBytes
-  aws_namespace: AWS/ECS
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - TaskDefinitionFamily
-  - ClusterName
-  - ServiceName
   aws_metric_name: NetworkRxBytes
   aws_namespace: AWS/ECS
   aws_statistics:

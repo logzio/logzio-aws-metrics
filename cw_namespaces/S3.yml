@@ -36,7 +36,7 @@
   - Sum
 - aws_dimensions:
   - BucketName
-  aws_metric_name: aws.s3_request.uploaded.bytes
+  aws_metric_name: BytesUploaded
   aws_namespace: AWS/S3
 - aws_dimensions:
   - BucketName
@@ -65,18 +65,6 @@
 - aws_dimensions:
   - BucketName
   aws_metric_name: BucketSizeBytes
-  aws_namespace: AWS/S3
-  aws_statistics:
-  - Average
-- aws_dimensions:
-  - BucketName
-  aws_metric_name: BucketSizeBytes
-  aws_namespace: AWS/S3
-  aws_statistics:
-  - Average
-- aws_dimensions:
-  - BucketName
-  aws_metric_name: NumberOfObjects
   aws_namespace: AWS/S3
   aws_statistics:
   - Average

@@ -60,12 +60,6 @@
   - Average
 - aws_dimensions:
   - VolumeId
-  aws_metric_name: VolumeWriteOps
-  aws_namespace: AWS/EBS
-  aws_statistics:
-  - Average
-- aws_dimensions:
-  - VolumeId
   aws_metric_name: VolumeReadBytes
   aws_namespace: AWS/EBS
   aws_statistics:
