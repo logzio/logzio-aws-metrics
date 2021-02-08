@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   otel-agent:
-     image: otel/opentelemetry-collector
+     image: otel/opentelemetry-collector:0.18.0
      container_name: opentelemetry-collector
      ports:
      - 55678-55680:55678-55680
@@ -17,7 +17,7 @@ services:
      depends_on:
      - logzio-config-builder
   logzio-config-builder:
-     image: logzio/cloudwatch-config-builder:latest
+     image: logzio/cloudwatch-config-builder:0.1.1
      container_name: logzio-config-builder
      volumes:
      - config_files:/configuration
@@ -35,7 +35,7 @@ services:
      ports:
      - 5001:5001
   cloudwatch-exporter:
-     image: prom/cloudwatch-exporter
+     image: prom/cloudwatch-exporter:cloudwatch_exporter-0.9.0
      container_name: cloudwatch-exporter
      volumes:
      - config_files:/configuration
