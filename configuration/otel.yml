@@ -16,11 +16,10 @@ exporters:
 
 processors:
   batch:
-  queued_retry:
 
 service:
   pipelines:
     metrics:
       receivers: [prometheus]
-      processors: [batch, queued_retry]
+      processors: [batch]
       exporters: [logging,prometheusremotewrite]

@@ -6,10 +6,6 @@
   - Average
 - aws_dimensions:
   - InstanceId
-  aws_metric_name: aws.ec2.instance.state.name
-  aws_namespace: AWS/EC2
-- aws_dimensions:
-  - InstanceId
   aws_metric_name: NetworkIn
   aws_namespace: AWS/EC2
   aws_statistics:
@@ -56,10 +52,6 @@
   aws_namespace: AWS/EC2
   aws_statistics:
   - Average
-- aws_dimensions:
-  - InstanceId
-  aws_metric_name: aws.ec2.cpu.credit_balance
-  aws_namespace: AWS/EC2
 - aws_dimensions:
   - InstanceId
   aws_metric_name: CPUCreditUsage

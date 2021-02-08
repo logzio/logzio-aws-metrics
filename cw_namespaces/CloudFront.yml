@@ -18,16 +18,6 @@
   - Sum
 - aws_dimensions:
   - DistributionId
-  aws_metric_name: BytesDownloaded
-  aws_namespace: AWS/CloudFront
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - DistributionId
-  aws_metric_name: BytesUploaded$SUM
-  aws_namespace: AWS/CloudFront
-- aws_dimensions:
-  - DistributionId
   aws_metric_name: BytesUploaded
   aws_namespace: AWS/CloudFront
   aws_statistics:
@@ -39,7 +29,6 @@
   aws_statistics:
   - Sum
 - aws_dimensions:
-  - DistributionId:$distributionid
   - DistributionId
   aws_metric_name: 5xxErrorRate
   aws_namespace: AWS/CloudFront

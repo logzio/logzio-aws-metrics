@@ -17,8 +17,3 @@
   - QueryState
   aws_metric_name: Total
   aws_namespace: AWS/Athena
-- aws_dimensions:
-  - QueryType
-  - QueryState
-  aws_metric_name: Total
-  aws_namespace: AWS/Athena
