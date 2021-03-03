@@ -199,7 +199,7 @@
   aws_statistics:
   - Sum
 - aws_dimensions:
-  - LoadBalancerName
+  - LoadBalancer
   aws_metric_name: ConsumedLCUs
   aws_namespace: AWS/ELB
   aws_statistics:
