@@ -86,10 +86,11 @@ def _update_otel_config(token, region, p8s_name, otel_config):
         module_yaml['exporters']['prometheusremotewrite']['endpoint'] = _get_listener_url(region)
         module_yaml['exporters']['prometheusremotewrite']['headers'][
             'Authorization'] = f'Bearer {token}'
-        module_yaml['receivers']['prometheus']['config']['global']['external_labels'][
-            'p8s_logzio_name'] = p8s_name
+        # module_yaml['receivers']['prometheus']['config']['global']['external_labels'][
+        #     'p8s_logzio_name'] = p8s_name
         if scrape_jobs_config.aws not in module_yaml['receivers']['prometheus']['config']['scrape_configs']:
             module_yaml['receivers']['prometheus']['config']['scrape_configs'].append(scrape_jobs_config.aws)
+            module_yaml['receivers']['prometheus']['config']['scrape_configs']['labels']['p8s_logzio_name'] = p8s_name
         _dump_and_close_file(module_yaml, module_file)
         logger.info('Opentelemtry collector configuration ready')
 
