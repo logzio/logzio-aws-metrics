@@ -80,42 +80,6 @@
   - Average
 - aws_dimensions:
   - LoadBalancer
-  aws_metric_name: NewFlowCount
-  aws_namespace: AWS/ELB
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - LoadBalancer
-  aws_metric_name: NewFlowCount_TLS
-  aws_namespace: AWS/ELB
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - LoadBalancer
-  aws_metric_name: TCP_Client_Reset_Count
-  aws_namespace: AWS/ELB
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - LoadBalancer
-  aws_metric_name: TCP_Target_Reset_Count
-  aws_namespace: AWS/ELB
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - LoadBalancer
-  aws_metric_name: TCP_ELB_Reset_Count
-  aws_namespace: AWS/ELB
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - LoadBalancer
-  aws_metric_name: ClientTLSNegotiationErrorCount
-  aws_namespace: AWS/ELB
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - LoadBalancer
   aws_metric_name: ProcessedBytes
   aws_namespace: AWS/ELB
   aws_statistics:
@@ -123,12 +87,6 @@
 - aws_dimensions:
   - LoadBalancer
   aws_metric_name: ProcessedBytes_TLS
-  aws_namespace: AWS/ELB
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - LoadBalancer
-  aws_metric_name: ConsumedLCUs
   aws_namespace: AWS/ELB
   aws_statistics:
   - Sum
