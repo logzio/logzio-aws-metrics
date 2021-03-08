@@ -7,6 +7,6 @@ aws = {
     'scrape_timeout': SCRAPE_INTERVAL,
     'static_configs': [{
         'targets': ['cloudwatch-exporter:9106'],
-        'labels': {'p8s_logzio_name': 'test'}
+        'labels': {'p8s_logzio_name': os.environ['P8S_LOGZIO_NAME']}
     }]
 }
