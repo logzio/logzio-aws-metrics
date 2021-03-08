@@ -62,15 +62,15 @@
   aws_namespace: AWS/S3
   aws_statistics:
   - Sum
-- aws_dimensions:
-  - BucketName
+- aws_namespace: AWS/S3
   aws_metric_name: BucketSizeBytes
-  aws_namespace: AWS/S3
-  aws_statistics:
-  - Average
-- aws_dimensions:
-  - BucketName
+  aws_dimensions: [BucketName, StorageType]
+  aws_statistics: [Average]
+  range_seconds: 172800
+  period_seconds: 86400
+- aws_namespace: AWS/S3
   aws_metric_name: NumberOfObjects
-  aws_namespace: AWS/S3
-  aws_statistics:
-  - Average
+  aws_dimensions: [BucketName, StorageType]
+  aws_statistics: [Average]
+  range_seconds: 172800
+  period_seconds: 86400
