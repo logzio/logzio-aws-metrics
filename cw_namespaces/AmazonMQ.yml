@@ -1,42 +1,35 @@
-metrics:
 - aws_dimensions:
   - Broker
-
   aws_metric_name: TotalProducerCount
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
   - Maximum
 - aws_dimensions:
   - Broker
-
   aws_metric_name: TotalConsumerCount
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
   - Maximum
 - aws_dimensions:
   - Broker
-
   aws_metric_name: JournalFilesForFullRecovery
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
   - Maximum
 - aws_dimensions:
   - Broker
-
   aws_metric_name: JournalFilesForFastRecovery
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
   - Maximum
 - aws_dimensions:
   - Broker
-
   aws_metric_name: HeapUsage
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
   - Maximum
 - aws_dimensions:
   - Broker
-
   aws_metric_name: CpuUtilization
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
@@ -175,6 +168,3 @@ metrics:
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
   - Maximum
-period_seconds: 300
-region: us-east-1
-set_timestamp: true
