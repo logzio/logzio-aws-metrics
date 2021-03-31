@@ -1,0 +1,17 @@
+name: Docker Image CI
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build -t logzio/cloudwatch-config-builder:0.1.1 -t logzio/cloudwatch-config-builder:latest .
+    - name: Push to logz.io docker hub latest
+      run: docker push logzio/cloudwatch-config-builder:latest
+    - name: Push to logz.io docker hub 0.1.1
+      run: docker push logzio/cloudwatch-config-builder:0.1.1
