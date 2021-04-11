@@ -68,9 +68,11 @@
   aws_statistics: [Average]
   range_seconds: 172800
   period_seconds: 86400
+  set_timestamp: false
 - aws_namespace: AWS/S3
   aws_metric_name: NumberOfObjects
   aws_dimensions: [BucketName, StorageType]
   aws_statistics: [Average]
   range_seconds: 172800
   period_seconds: 86400
+  set_timestamp: false
