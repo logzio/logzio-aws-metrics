@@ -1,4 +1,3 @@
-metrics:
 - aws_dimensions:
   - BucketName
   - FilterId
@@ -88,6 +87,3 @@ metrics:
   range_seconds: 172800
   period_seconds: 86400
   set_timestamp: false
-period_seconds: 300
-region: us-east-1
-
