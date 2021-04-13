@@ -59,13 +59,15 @@
   aws_statistics:
   - Maximum
 - aws_dimensions:
-  - Broker
+  - Queue
   aws_metric_name: QueueSize
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
   - Maximum
 - aws_dimensions:
   - Broker
+  - Topic
+  - Queue
   aws_metric_name: ConsumerCount
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
@@ -73,12 +75,7 @@
 - aws_dimensions:
   - Broker
   - Topic
-  aws_metric_name: ConsumerCount
-  aws_namespace: AWS/AmazonMQ
-  aws_statistics:
-  - Maximum
-- aws_dimensions:
-  - Broker
+  - Queue
   aws_metric_name: DispatchCount
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
@@ -86,26 +83,8 @@
 - aws_dimensions:
   - Broker
   - Topic
-  aws_metric_name: DispatchCount
-  aws_namespace: AWS/AmazonMQ
-  aws_statistics:
-  - Maximum
-- aws_dimensions:
-  - Broker
+  - Queue
   aws_metric_name: ProducerCount
-  aws_namespace: AWS/AmazonMQ
-  aws_statistics:
-  - Maximum
-- aws_dimensions:
-  - Broker
-  - Topic
-  aws_metric_name: ProducerCount
-  aws_namespace: AWS/AmazonMQ
-  aws_statistics:
-  - Maximum
-- aws_dimensions:
-  - Broker
-  aws_metric_name: ReceiveCount
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
   - Maximum
@@ -118,6 +97,8 @@
   - Maximum
 - aws_dimensions:
   - Broker
+  - Topic
+  - Queue
   aws_metric_name: EnqueueCount
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
@@ -125,12 +106,15 @@
 - aws_dimensions:
   - Broker
   - Topic
-  aws_metric_name: EnqueueCount
+  - Queue
+  aws_metric_name: DequeueCount
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
-  - Maximum
+  - Maximum 
 - aws_dimensions:
   - Broker
+  - Topic
+  - Queue
   aws_metric_name: ExpiredCount
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
@@ -138,26 +122,8 @@
 - aws_dimensions:
   - Broker
   - Topic
-  aws_metric_name: ExpiredCount
-  aws_namespace: AWS/AmazonMQ
-  aws_statistics:
-  - Maximum
-- aws_dimensions:
-  - Broker
+  - Queue
   aws_metric_name: EnqueueTime
-  aws_namespace: AWS/AmazonMQ
-  aws_statistics:
-  - Maximum
-- aws_dimensions:
-  - Broker
-  - Topic
-  aws_metric_name: EnqueueTime
-  aws_namespace: AWS/AmazonMQ
-  aws_statistics:
-  - Maximum
-- aws_dimensions:
-  - Broker
-  aws_metric_name: MemoryUsage
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
   - Maximum
