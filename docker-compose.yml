@@ -21,7 +21,7 @@ services:
      container_name: logzio-config-builder
      volumes:
      - config_files:/configuration
-     - ${CUSTOM_CONFIG_PATH:-./configuration_raw/blank.yml}:/configuration/custom/cloudwatch.yml
+     - ${CUSTOM_CONFIG_PATH:-./docker-compose.yml}:/configuration/custom/cloudwatch.yml
      environment:
      - LOGZIO_REGION=${LOGZIO_REGION}
      - AWS_NAMESPACES=${AWS_NAMESPACES}

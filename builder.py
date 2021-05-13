@@ -49,8 +49,11 @@ def validate_input():
         input_validator.is_valid_custom_listener(CUSTOM_LISTENER)
     input_validator.is_valid_logzio_region_code(REGION)
     input_validator.is_valid_scrape_interval(SCRAPE_INTERVAL)
-    namespaces, removed_namespaces = input_validator.is_valid_aws_namespaces(AWS_NAMESPACES)
-    return namespaces, removed_namespaces
+    if CUSTOM_CONFIG_PATH:
+        return [], []
+    else:
+        namespaces, removed_namespaces = input_validator.is_valid_aws_namespaces(AWS_NAMESPACES)
+        return namespaces, removed_namespaces
 
 
 def _get_listener_url(region):
@@ -154,11 +157,12 @@ def _expose_configuration():
 
 if __name__ == '__main__':
     AWS_NAMESPACES, removed_namespaces = validate_input()
-    logger.warning(f'{removed_namespaces} namespaces are unsupported')
+    if removed_namespaces:
+        logger.warning(f'{removed_namespaces} namespaces are unsupported')
     _init_configuration(CW_CONFIG, CW_RAW_CONFIG, OTEL_CONFIG, OTEL_RAW_CONFIG)
     _update_otel_config(LOGZIO_TOKEN, REGION, P8S_LOGZIO_NAME, OTEL_CONFIG)
     if CUSTOM_CONFIG_PATH:
-        _load_aws_custom_config(CW_CONFIG, CUSTOM_CONFIG_PATH)
+        _load_aws_custom_config(CW_CONFIG, "configuration/custom/cloudwatch.yml")
     else:
         _add_cloudwatch_config(AWS_NAMESPACES, CW_CONFIG, AWS_REGION, SCRAPE_INTERVAL)
     _expose_configuration()
