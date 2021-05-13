@@ -36,8 +36,6 @@ Within the applications included in the Docker compose file:
 * For more information about the prom/cloudwatch-exporter cost, refer to the relevant [Prometheus documentation](https://github.com/prometheus/cloudwatch_exporter#cost) and to the [AWS cloudwatch API pricing page](https://aws.amazon.com/cloudwatch/pricing/).
 
 #### Before you begin
-
-
 ##### Set up your IAM user
 
 You'll need an [IAM user](https://console.aws.amazon.com/iam/home)
