@@ -4,6 +4,7 @@
   aws_namespace: AWS/AmazonMQ
   aws_statistics:
   - Maximum
+
 - aws_dimensions:
   - Broker
   aws_metric_name: TotalConsumerCount
