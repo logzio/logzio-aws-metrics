@@ -4,7 +4,7 @@
   aws_metric_name: Count
   aws_namespace: AWS/ApiGateway
   aws_statistics:
-  - Sum
+  - SampleCount
 - aws_dimensions:
   - Stage
   - ApiName
@@ -39,11 +39,11 @@
   aws_metric_name: CacheHitCount
   aws_namespace: AWS/ApiGateway
   aws_statistics:
-  - SampleCount
+  - Sum
 - aws_dimensions:
   - Stage
   - ApiName
   aws_metric_name: CacheMissCount
   aws_namespace: AWS/ApiGateway
   aws_statistics:
-  - SampleCount
+  - Sum
