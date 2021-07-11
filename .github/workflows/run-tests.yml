@@ -32,6 +32,7 @@ jobs:
         CUSTOM_CONFIG_PATH: ''
         P8S_LOGZIO_NAME: tests
         CUSTOM_LISTENER: ''
+        AWS_ROLE_ARN: ''
       run: |
         pytest tests.py
     - name: Test with pytest (custom listener)
@@ -44,5 +45,6 @@ jobs:
         CUSTOM_CONFIG_PATH: ''
         P8S_LOGZIO_NAME: tests
         CUSTOM_LISTENER: https://custom.listener:3000
+        AWS_ROLE_ARN: ''
       run: |
         pytest tests.py

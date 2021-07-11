@@ -63,14 +63,14 @@ class TestBuilder(unittest.TestCase):
             self.fail(f'Unexpected error {e}')
         test_file.close()
 
-    def test_add_cloudwatch_namesapce(self):
+    def test_add_cloudwatch_namespace(self):
         # Fail FileNotFoundError
         self.assertRaises(FileNotFoundError,
-                          builder._add_cloudwatch_namesapce, 'AWS/EC2', './wrong/path')
+                          builder._add_cloudwatch_namespace, 'AWS/EC2', './wrong/path')
         # Success
         try:
             for ns in ns_list:
-                builder._add_cloudwatch_namesapce(ns, builder.CW_CONFIG)
+                builder._add_cloudwatch_namespace(ns, builder.CW_CONFIG)
         except Exception as e:
             self.fail(f'Unexpected error {e}')
 

@@ -109,13 +109,16 @@ docker-compose up
 | P8S_LOGZIO_NAME | The value of the `p8s_logzio_name` external label. This variable identifies which Prometheus environment the metrics arriving at Logz.io came from. Default = `logzio-cloudwatch-metrics`.  |
 | CUSTOM_CONFIG_PATH | Path to your Cloudwatch exporter configuration file. For more information refer to the [documentation](https://github.com/prometheus/cloudwatch_exporter#configuration).  **Note:** Set the `period_seconds` parameter according to your `SCRAPE_INTERVAL`|
 | CUSTOM_LISTENER | Set a custom URL to ship metrics to (for example, http://localhost:9200). This overrides the `LOGZIO_REGION` Environment variable. |
+| AWS_ROLE_ARN | Your IAM role to assume. |
 
 ###### Set environment variables for the `prom/cloudwatch-exporter` container
 
 | Environment variable | Description |
 |---|---|
-| AWS_ACCESS_KEY_ID (Required)| Your IAM user's access key ID. |
-| AWS_SECRET_ACCESS_KEY (Required)| Your IAM user's secret key. |
+| AWS_ACCESS_KEY_ID | Your IAM user's access key ID. |
+| AWS_SECRET_ACCESS_KEY | Your IAM user's secret key. |
+| AWS_CREDENTIAL_PROFILES_FILE | The path to your shared credentials file. |
+| AWS_PROFILE | Your profile name in shared credentials file. |
 
 ##### Run Docker.
 Run the command: `docker-compose up`.

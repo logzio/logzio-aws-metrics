@@ -13,6 +13,8 @@ AWS_NAMESPACES = os.environ['AWS_NAMESPACES']
 CUSTOM_CONFIG_PATH = os.environ['CUSTOM_CONFIG_PATH']
 P8S_LOGZIO_NAME = os.environ['P8S_LOGZIO_NAME']
 CUSTOM_LISTENER = os.environ['CUSTOM_LISTENER']
+AWS_ROLE_ARN = os.environ['AWS_ROLE_ARN']
+
 # configuration files path
 CW_CONFIG = './configuration/cloudwatch.yml'
 CW_RAW_CONFIG = './configuration_raw/cloudwatch_raw.yml'
@@ -98,16 +100,18 @@ def _update_otel_config(token, region, p8s_name, otel_config):
 
 
 # Ading region and scrape interval to cloudwatch exporter configuration
-def _add_aws_global_settings(cw_config, aws_region, scrape_interval):
+def _add_aws_global_settings(cw_config, aws_region, scrape_interval, aws_role):
     with open(cw_config, 'r+') as module_file:
         module_yaml = yaml.safe_load(module_file)
         module_yaml['region'] = aws_region
         module_yaml['period_seconds'] = int(scrape_interval)
+        if aws_role:
+            module_yaml['role_arn'] = aws_role
         _dump_and_close_file(module_yaml, module_file)
 
 
 # Add metrics to scrape based on AWS_NAMESPACES environment variable
-def _add_cloudwatch_namesapce(namespace, cw_config):
+def _add_cloudwatch_namespace(namespace, cw_config):
     namespace = namespace.split('AWS/')[-1]
     with open(cw_config, 'r+') as cloudwatch_file:
         cloudwatch_yaml = yaml.safe_load(cloudwatch_file)
@@ -119,11 +123,11 @@ def _add_cloudwatch_namesapce(namespace, cw_config):
         logger.info(f'AWS/{namespace} was added to cloudwatch exporter configuration')
 
 
-def _add_cloudwatch_config(namespaces, cw_config, aws_region, scrape_interval):
+def _add_cloudwatch_config(namespaces, cw_config, aws_region, scrape_interval, aws_role):
     logger.info('Adding cloudwatch exporter configuration')
-    _add_aws_global_settings(cw_config, aws_region, scrape_interval)
+    _add_aws_global_settings(cw_config, aws_region, scrape_interval, aws_role)
     for namespace in namespaces:
-        _add_cloudwatch_namesapce(namespace, cw_config)
+        _add_cloudwatch_namespace(namespace, cw_config)
     logger.info('Cloudwatch exporter configuration ready')
 
 
@@ -164,5 +168,5 @@ if __name__ == '__main__':
     if CUSTOM_CONFIG_PATH:
         _load_aws_custom_config(CW_CONFIG, "configuration/custom/cloudwatch.yml")
     else:
-        _add_cloudwatch_config(AWS_NAMESPACES, CW_CONFIG, AWS_REGION, SCRAPE_INTERVAL)
+        _add_cloudwatch_config(AWS_NAMESPACES, CW_CONFIG, AWS_REGION, SCRAPE_INTERVAL, AWS_ROLE_ARN)
     _expose_configuration()
