@@ -18,8 +18,7 @@ services:
      depends_on:
      - logzio-config-builder
   logzio-config-builder:
-#     image: logzio/cloudwatch-config-builder
-     build: .
+     image: logzio/cloudwatch-config-builder
      container_name: logzio-config-builder
      volumes:
      - config_files:/configuration
