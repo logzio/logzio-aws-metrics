@@ -1,45 +1,52 @@
 - aws_dimensions:
-  - DeliveryStreamName
-  aws_metric_name: DeliveryToS3
+  - StreamName 
+  aws_metric_name: IncomingBytes
+  aws_namespace: AWS/Kinesis
+  aws_statistics: 
+  - Sum
+- aws_dimensions:
+  - StreamName
+  aws_metric_name: PutRecord.Latency
+  aws_namespace: AWS/Kinesis
+  aws_statistics: 
+  - Average
+- aws_dimensions:
+  - StreamName
+  aws_metric_name: PutRecords.Latency
+  aws_namespace: AWS/Kinesis
+  aws_statistics:
+  - Average
+- aws_dimensions:
+  - StreamName
+  aws_metric_name: GetRecords.Latency
+  aws_namespace: AWS/Kinesis
+  aws_statistics:
+  - Average
+- aws_dimensions:
+  - StreamName
+  aws_metric_name: GetRecords.Records
   aws_namespace: AWS/Kinesis
   aws_statistics:
   - Sum
 - aws_dimensions:
-  - DeliveryStreamName
-  aws_metric_name: DeliveryToS3
-  aws_namespace: AWS/Kinesis
-  aws_statistics:
-  - SampleCount
-- aws_dimensions:
-  - DeliveryStreamName
-  aws_metric_name: DeliveryToS3
-  aws_namespace: AWS/Kinesis
-  aws_statistics:
-  - Maximum
-- aws_dimensions:
-  - DeliveryStreamName
-  aws_metric_name: PutRecordBatch
+  - StreamName
+  aws_metric_name: GetRecords.Bytes
   aws_namespace: AWS/Kinesis
   aws_statistics:
   - Sum
 - aws_dimensions:
-  - DeliveryStreamName
+  - StreamName
+  aws_metric_name: GetRecords.IteratorAgeMilliseconds
+  aws_namespace: AWS/Kinesis
+  aws_statistics:
+  - Average
+- aws_dimensions:
+  - StreamName
   aws_metric_name: IncomingRecords
   aws_namespace: AWS/Kinesis
   aws_statistics:
   - Sum
 - aws_dimensions:
-  - DeliveryStreamName
-  aws_metric_name: IncomingBytes
-  aws_namespace: AWS/Kinesis
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - region
-  - StreamName
-  aws_metric_name: StreamName
-  aws_namespace: AWS/Kinesis
-- aws_dimensions:
   - StreamName
   aws_metric_name: IncomingBytes
   aws_namespace: AWS/Kinesis
@@ -47,25 +54,13 @@
   - Sum
 - aws_dimensions:
   - StreamName
-  aws_metric_name: IncomingRecords
+  aws_metric_name: WriteProvisionedThroughputExceeded
   aws_namespace: AWS/Kinesis
   aws_statistics:
-  - Sum
+  - Average 
 - aws_dimensions:
   - StreamName
-  aws_metric_name: GetRecords
+  aws_metric_name: ReadProvisionedThroughputExceeded  
   aws_namespace: AWS/Kinesis
   aws_statistics:
-  - Sum
-- aws_dimensions:
-  - StreamName
-  aws_metric_name: ReadProvisionedThroughputExceeded
-  aws_namespace: AWS/Kinesis
-  aws_statistics:
-  - Sum
-- aws_dimensions:
-  - StreamName
-  aws_metric_name: PutRecord
-  aws_namespace: AWS/Kinesis
-  aws_statistics:
-  - Sum
+  - Average
