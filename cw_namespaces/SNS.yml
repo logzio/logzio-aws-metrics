@@ -3,7 +3,19 @@
   aws_metric_name: NumberOfMessagesPublished
   aws_namespace: AWS/SNS
   aws_statistics:
-  - SampleCount
+  - Sum
+- aws_dimensions:
+  - TopicName
+  aws_metric_name: NumberOfNotificationsDelivered
+  aws_namespace: AWS/SNS
+  aws_statistics:
+  - Sum
+- aws_dimensions:
+  - TopicName
+  aws_metric_name: NumberOfNotificationsFailed
+  aws_namespace: AWS/SNS
+  aws_statistics:
+  - Sum
 - aws_dimensions:
   - TopicName
   aws_metric_name: PublishSize
@@ -12,19 +24,19 @@
   - Average
 - aws_dimensions:
   - TopicName
-  aws_metric_name: NumberOfNotificationsFailed
+  aws_metric_name: NumberOfNotificationsFilteredOut
   aws_namespace: AWS/SNS
   aws_statistics:
-  - SampleCount
+  - Sum
 - aws_dimensions:
   - TopicName
-  aws_metric_name: NumberOfNotificationsDelivered
+  aws_metric_name: NumberOfNotificationsFilteredOut-InvalidAttributes
   aws_namespace: AWS/SNS
   aws_statistics:
-  - SampleCount
+  - Sum
 - aws_dimensions:
   - TopicName
-  aws_metric_name: SMSSuccessRate
+  aws_metric_name: NumberOfNotificationsFilteredOut-NoMessageAttributes
   aws_namespace: AWS/SNS
   aws_statistics:
-  - SampleCount
+  - Sum
