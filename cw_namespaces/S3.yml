@@ -40,11 +40,15 @@
   aws_namespace: AWS/S3
   aws_statistics:
   - Sum
+  - Average
 - aws_dimensions:
   - BucketName
   - FilterId
   aws_metric_name: BytesUploaded
   aws_namespace: AWS/S3
+  aws_statistics:
+  - Sum
+  - Average
 - aws_dimensions:
   - BucketName
   - FilterId
