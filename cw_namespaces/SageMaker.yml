@@ -1,0 +1,24 @@
+ - aws_namespace: AWS/SageMaker
+   aws_metric_name: Invocation4XXErrors
+   aws_dimensions: [EndpointName, VariantName]
+   aws_statistics: [Average, Sum]
+ - aws_namespace: AWS/SageMaker
+   aws_metric_name: Invocation5XXErrors
+   aws_dimensions: [EndpointName, VariantName]
+   aws_statistics: [Average, Sum]
+ - aws_namespace: AWS/SageMaker
+   aws_metric_name: Invocations
+   aws_dimensions: [EndpointName, VariantName]
+   aws_statistics: [Sum]
+ - aws_namespace: AWS/SageMaker
+   aws_metric_name: InvocationsPerInstance
+   aws_dimensions: [EndpointName, VariantName]
+   aws_statistics: [Sum]
+ - aws_namespace: AWS/SageMaker
+   aws_metric_name: ModelLatency
+   aws_dimensions: [EndpointName, VariantName]
+   aws_statistics: [Average, Sum]
+ - aws_namespace: AWS/SageMaker
+   aws_metric_name: OverheadLatency
+   aws_dimensions: [EndpointName, VariantName]
+   aws_statistics: [Average, Sum]
