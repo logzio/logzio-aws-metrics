@@ -3,7 +3,7 @@
   aws_metric_name: ActiveConnectionCount
   aws_namespace: AWS/NATGateway
   aws_statistics:
-  - Max
+  - Maximum
 - aws_dimensions:
   - NatGatewayId
   aws_metric_name: BytesInFromDestination
