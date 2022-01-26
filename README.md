@@ -1,6 +1,7 @@
 # logzio-aws-metrics
 
 
+**⚠️ Please read: This project is archived, and will have no more new features. You can use [logzio/cloudwatch-metrics](https://github.com/logzio/cloudwatch-metrics) instead**
 
 This project allows you to collect Prometheus format metrics from Amazon CloudWatch with the CloudWatch exporter, and ship them to Logz.io using the OpenTelemetry collector.
 
