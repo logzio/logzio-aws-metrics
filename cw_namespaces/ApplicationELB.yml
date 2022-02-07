@@ -2,12 +2,14 @@
   aws_metric_name: HealthyHostCount
   aws_dimensions:
   - LoadBalancer
+  - TargetGroup
   aws_statistics:
   - Sum
 - aws_namespace: AWS/ApplicationELB
   aws_metric_name: UnHealthyHostCount
   aws_dimensions:
   - LoadBalancer
+  - TargetGroup
   aws_statistics:
   - Sum
 - aws_namespace: AWS/ApplicationELB
